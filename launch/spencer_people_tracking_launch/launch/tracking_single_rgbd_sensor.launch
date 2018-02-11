@@ -18,7 +18,7 @@
         <include file="$(arg driver_launchfile)">
           <arg name="camera" value="rgbd_front_top"/>
           <arg name="device_id" value="#1"/>
-          <arg name="depth_registration" value="true"/>
+          <arg name="depth_registration" value="false"/>
         </include>
     </group>
 
@@ -37,9 +37,8 @@
     <group>
         <!-- Remap input topics of detectors from "depth" to "depth_registered" in case we are using the OpenNi 1 driver (for MS Kinect).
              Necessary because OpenNi 1 does not publish both the registered and unregistered depth images (as OpenNi 2 does), and we want to keep depth registration enabled. -->
-        <remap from="/spencer/sensors/rgbd_front_top/depth/image_rect" to="/spencer/sensors/rgbd_front_top/depth_registered/image_rect"  if="$(arg use_openni1)"/>
-        <remap from="/spencer/sensors/rgbd_front_top/depth/camera_info" to="/spencer/sensors/rgbd_front_top/depth_registered/camera_info" if="$(arg use_openni1)"/>
-
+        <remap from="rgbd_front_top/depth/image_rect" to="rgbd_front_top/depth_registered/image_rect"  if="$(arg use_openni1)"/>
+        <remap from="rgbd_front_top/depth/camera_info" to="rgbd_front_top/depth_registered/camera_info" if="$(arg use_openni1)"/>
         <include file="$(find spencer_people_tracking_launch)/launch/detectors/front_rgbd_detectors.launch">
             <arg name="upper_body" default="$(arg use_upper_body_detector)"/>
             <arg name="pcl_detector" value="$(arg use_pcl_detector)"/>
